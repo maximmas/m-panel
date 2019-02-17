@@ -1,0 +1,202 @@
+<div id="app">
+  <div id="preloader"></div>
+  <v-app id="inspire">
+    <h1 class="text-xs-center">Настройки Coupons CPA Import</h1>
+
+    <v-tabs v-model="active" color="blue darken-3" dark slider-color="red darken-1">
+
+      <v-tab v-for="n in menu_items" :key="n" ripple>
+        {{ n }}
+      </v-tab>
+
+      <!-- Актвные  -->
+      <v-tab-item>
+        <v-container fluid>
+
+          <v-layout wrap align-center>
+            <v-flex xs4 d-flex>
+              <span class="v-active-title headline font-weight-regular">Заголовок секции</span>
+            </v-flex>
+            <v-flex xs7 d-flex>
+              <v-text-field v-model="options.active_title" label="options.active_title" single-line>
+              </v-text-field>
+            </v-flex>
+          </v-layout>
+
+          <v-layout wrap align-center>
+            <v-flex xs4 d-flex>
+              <span class="v-active-title headline font-weight-regular">
+                Сколько купонов показывать?
+              </span>
+            </v-flex>
+            <v-flex xs4 d-flex>
+              <v-slider v-model="options.active_to_show" step="1" :max="coups_max" :min="coups_min" thumb-label="always"
+                ticks>
+              </v-slider>
+            </v-flex>
+          </v-layout>
+
+          <v-layout wrap align-center>
+            <v-flex xs4 d-flex>
+              <span class="v-active-title headline font-weight-regular">Шорткод для модального окна</span>
+            </v-flex>
+            <v-flex xs7 d-flex>
+              <v-text-field label='options.active_modal_shortcode' v-model='options.active_modal_shortcode' single-line>
+              </v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-tab-item>
+
+      <!-- Архив -->
+      <v-tab-item>
+        <v-container fluid>
+
+          <v-layout wrap align-center>
+            <v-flex xs4 d-flex>
+              <span class="v-active-title headline font-weight-regular">Заголовок секции</span>
+            </v-flex>
+            <v-flex xs7 d-flex>
+              <v-text-field v-model="options.archive_title" label="options.archive_title" single-line>
+              </v-text-field>
+            </v-flex>
+          </v-layout>
+
+          <v-layout wrap align-center>
+            <v-flex xs4 d-flex>
+              <span class="v-active-title headline font-weight-regular">
+                Сколько купонов показывать?
+              </span>
+            </v-flex>
+            <v-flex xs4 d-flex>
+              <v-slider v-model="options.archive_to_show" step="1" :max="coups_max" :min="coups_min"
+                thumb-label="always" ticks>
+              </v-slider>
+            </v-flex>
+          </v-layout>
+
+          <v-layout wrap align-center>
+            <v-flex xs4 d-flex>
+              <span class="v-active-title headline font-weight-regular">
+                Сколько купонов загружать?
+              </span>
+            </v-flex>
+            <v-flex xs4 d-flex>
+              <v-slider v-model="options.archive_to_load" step="1" :max="coups_max" :min="coups_min"
+                thumb-label="always" ticks>
+              </v-slider>
+            </v-flex>
+          </v-layout>
+
+        </v-container>
+      </v-tab-item>
+
+      <!-- Импорт -->
+      <v-tab-item>
+        <v-container fluid>
+
+          <v-layout wrap align-center>
+            <v-flex xs4 d-flex>
+              <span class="v-active-title headline font-weight-regular">XML-выгрузка Admitad</span>
+            </v-flex>
+            <v-flex xs7 d-flex>
+              <v-text-field label="options.import_xml_admitad" v-model="options.import_xml_admitad" single-line>
+              </v-text-field>
+            </v-flex>
+          </v-layout>
+
+          <v-layout wrap align-center>
+            <v-flex xs4 d-flex>
+              <span class="v-active-title headline font-weight-regular">XML-выгрузка Actionpay</span>
+            </v-flex>
+            <v-flex xs7 d-flex>
+              <v-text-field label="options.import_xml_actionpay" v-model="options.import_xml_actionpay" single-line>
+              </v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-tab-item>
+
+      <!-- Реклама -->
+      <v-tab-item>
+        <v-container fluid>
+
+          <v-layout wrap align-center>
+            <v-flex xs4 d-flex>
+              <span class="v-active-title headline font-weight-regular">
+                Выводить рекламный блок?
+              </span>
+            </v-flex>
+            <v-flex xs4 d-flex>
+              <v-switch v-model="options.advert_to_show" :label="options.advert_to_show ? 'Да' : 'Нет'"></v-switch>
+            </v-flex>
+          </v-layout>
+
+          <v-layout wrap align-center>
+            <v-flex xs4 d-flex>
+              <span class="v-active-title headline font-weight-regular">
+                После какого купона показывать?
+              </span>
+            </v-flex>
+            <v-flex xs4 d-flex>
+              <v-slider :disabled="!options.advert_to_show" v-model="options.advert_after" step="1" :max="ad_max"
+                :min="ad_min" thumb-label="always" ticks>
+              </v-slider>
+            </v-flex>
+          </v-layout>
+
+          <v-layout wrap align-center>
+            <v-flex xs4 d-flex>
+              <span class="v-active-title headline font-weight-regular">Шорткод для рекламного блока</span>
+            </v-flex>
+            <v-flex xs7 d-flex>
+              <v-text-field v-model='options.advert_shortcode' label='options.advert_shortcode' single-line>
+              </v-text-field>
+            </v-flex>
+          </v-layout>
+
+        </v-container>
+      </v-tab-item>
+
+      <!-- Шаблоны -->
+      <v-tab-item>
+        <v-container fluid>
+          <v-layout row justify-start>
+
+            <v-flex xs5>
+              <span class="v-active-title headline font-weight-regular">Текст Admitad</span>
+              <v-textarea flat outline full-width auto-grow box :value="options.text_default_admitad">
+              </v-textarea>
+            </v-flex>
+
+            <v-flex xs5 offset-xs1>
+              <span class="v-active-title headline font-weight-regular">Текст Actionpay</span>
+              <v-textarea flat auto-grow outline full-width box :value="options.text_default_actionpay">
+              </v-textarea>
+            </v-flex>
+
+          </v-layout>
+        </v-container>
+      </v-tab-item>
+    </v-tabs>
+
+
+
+  </v-app>
+  <div>
+    <v-btn @click="onSave" :disabled="is_saving" color="primary" class="btn_app_save">Сохранить</v-btn>
+  </div>
+
+  <v-container fluid>
+    <v-layout row wrap>
+      <v-snackbar v-model="is_saved" :bottom="y === 'bottom'" :left="x === 'left'" :multi-line="mode === 'multi-line'"
+        :right="x === 'right'" :timeout="timeout" :top="y === 'top'" :vertical="mode === 'vertical'">
+        {{ message }}
+        <v-btn color="pink" flat @click="is_saved = false">
+          Close
+        </v-btn>
+      </v-snackbar>
+    </v-layout>
+  </v-container>
+
+</div>
